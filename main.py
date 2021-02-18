@@ -28,14 +28,14 @@ async def on_message(message):
     await message.channel.send(question)
 
     async def check(reaction, user):
-      return user == message.author and str(reaction.emoji) == (response_data['results'][randQ][correct_answer])
+      return user == message.author and user.content == str((response_data['results'][randQ][correct_answer]))
 
       try:
-        reaction, user = await client.wait_for('reaction_add', timeout=60.0, check=check)
+        reaction, user = await client.wait_for('message', timeout=60.0, check=check)
       except asyncio.TimeoutError:
-        await channel.send(response_data['results'][randQ][incorrect_answer])
+        await channel.send(str(response_data['results'][randQ][incorrect_answer]))
       else:
-        await channel.send(response_data['results'][randQ][correct_answer])
+        await channel.send(str(response_data['results'][randQ][correct_answer]))
       
 
     
